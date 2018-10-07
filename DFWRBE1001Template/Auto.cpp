@@ -13,8 +13,9 @@ int encoder1Pos = 0;
 int encoder1PinALast = LOW;
 int n = LOW;
 int n1 = LOW;
-long blinkTime = 0;
-bool isOn = false;
+
+long lastRecordedTime = 0; //This will store difference from time var passed in
+boolean ledIsOn = false;
 
 void Auto::init(Servo left, Servo right)
 {
@@ -28,6 +29,9 @@ void Auto::init(Servo left, Servo right)
   pinMode (encoder0PinB, INPUT);
   pinMode (encoder1PinA, INPUT);
   pinMode (encoder1PinB, INPUT);
+  
+  lastRecordedTime = 0; //Initializes lastRecordedTime to the current systime
+  ledIsOn = true;
 }
 
 void Auto::deinit()
@@ -43,18 +47,18 @@ void Auto::stopBlinking()
 
 void Auto::blinkNow(long t)
 {
-  Serial.println(t);
-  if(t % 500 == 0)
+  if(t - lastRecordedTime > 500) //If greater, rester lastRecordedTime to current, invert light
   {
-    isOn = !isOn;
-  }
-  if(isOn)
-  {
-    digitalWrite(ledPin, HIGH);
-  }
-  else
-  {
-    digitalWrite(ledPin, LOW);
+    ledIsOn = !ledIsOn; //Flips the light;
+    lastRecordedTime = t;
+    if(ledIsOn)
+    {
+      digitalWrite(ledPin, HIGH);
+    }
+    else
+    {
+      digitalWrite(ledPin, LOW);
+    }
   }
 }
 

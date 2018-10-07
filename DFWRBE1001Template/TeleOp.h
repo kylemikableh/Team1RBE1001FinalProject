@@ -14,6 +14,8 @@ class TeleOp
     void init(int armMotorPin, int armPotPin);
     Servo getLeftServo();
     Servo getRightServo();
+    void stopBlinking();
+    void blinkNow(long t);
     void drive(DFW * dfwObject);
     void teleOpLED();
 };
