@@ -6,18 +6,23 @@
 long lastRecordedTimeTele = 0; //This will store difference from time var passed in
 boolean ledIsOnTele = false;
 
-void TeleOp::init(int leftMotorPin, int rightMotorPin) 
+void TeleOp::init(int leftMotorPin, int rightMotorPin, DFW * dfwobj) 
 {
   leftPin = leftMotorPin;
   rightPin = rightMotorPin;
+  dfwObject = dfwobj;
+  
   ledPin = 22;
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, HIGH); 
   leftMotor.attach(leftPin, 1000, 2000);
   rightMotor.attach(rightPin, 1000, 2000);
+  
 
   lastRecordedTimeTele = 120000; //Initializes lastRecordedTime to the current systime
   ledIsOnTele = true;
+
+  Serial.println("TeleOp has initialized...");
 }
 
 Servo TeleOp::getLeftServo()
@@ -61,7 +66,7 @@ void TeleOp::blinkNow(long t)
   }
 }
 
-void TeleOp::drive(DFW * dfwObject) 
+void TeleOp::drive() 
 {
   rightMotor.write((dfwObject->joystickrh() + (180 - dfwObject->joystickrv())) / 2);     //DFW.joystick will return 0-180 as an int into rightmotor.write
   leftMotor.write((dfwObject->joystickrh() + dfwObject->joystickrv()) / 2);      //DFW.joystick will return 0-180 as an int into leftmotor.write
@@ -70,6 +75,11 @@ void TeleOp::drive(DFW * dfwObject)
   {
 
    }*/
+}
+
+void TeleOp::intake()
+{
+  
 }
 
 void TeleOp::teleOpLED()

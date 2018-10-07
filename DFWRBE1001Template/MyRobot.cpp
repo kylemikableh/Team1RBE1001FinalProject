@@ -2,19 +2,23 @@
 #include "Arduino.h"
 #include "Auto.h"
 #include "TeleOp.h"
+#include "Intake.h"
 /**
  * These are the execution runtions
  */
 TeleOp teleOp; //TeleOp Class written by Kyle
 Auto autoObj; //AutoClass Written by Kyle
+Intake intake; //Intake Class written by Kyle
 
 //The template says to not touch DFWRBE1001Template, ignoring passed in values.
 void MyRobot::initialize(unsigned armMotorPin, unsigned armPotPin) 
 {
-	teleOp.init(7,4); //Initialize TeleOp object//
+	teleOp.init(7,4, dfw); //Initialize TeleOp object, with motors at pins 7 and 4, respectfully
 	autoObj.init(teleOp.getLeftServo(), teleOp.getRightServo());
+  intake.init(10, dfw); //Creates the intake object
+  
   Serial2.begin(9600);
-  Serial2.write("penis",5);
+  Serial2.write("eric",5);
 }
 
 void MyRobot::moveTo(unsigned position) 
@@ -27,8 +31,9 @@ void MyRobot::moveTo(unsigned position)
  */
  void MyRobot::robotStartup()
  {
-  teleOp.init(7,4); //Initialize TeleOp object//
+  teleOp.init(7,4, dfw); //Initialize TeleOp object//
   autoObj.init(teleOp.getLeftServo(), teleOp.getRightServo());
+  intake.init(10, dfw); //Creates the intake object
  }
 /**
  * Called by the controller between communication with the wireless controller
@@ -43,6 +48,7 @@ void MyRobot::moveTo(unsigned position)
 		Serial.print(time);
 		autoObj.blinkNow(time); //blick taking in new time, compairing difference to be either on or off;
 		autoObj.drive(dfw);
+    intake.useAuto();
  }
 /**
  * Called by the controller between communication with the wireless controller
@@ -61,7 +67,8 @@ void MyRobot::moveTo(unsigned position)
 		Serial.print(dfw->joysticklv());
 		//Run functions in the robot class
     teleOp.blinkNow(time);
-    teleOp.drive(dfw); //Custom Class Drive
+    teleOp.drive(); //Custom Class Drive
+    intake.useTele();
  }
 /**
  * Called at the end of control to reset the objects for the next start

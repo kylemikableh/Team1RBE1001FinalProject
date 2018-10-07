@@ -32,6 +32,7 @@ void Auto::init(Servo left, Servo right)
   
   lastRecordedTime = 20000; //Initializes lastRecordedTime to the current systime
   ledIsOn = true;
+  Serial.println("Auto has initialized...");
 }
 
 void Auto::deinit()

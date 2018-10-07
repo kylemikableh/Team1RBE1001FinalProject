@@ -10,13 +10,15 @@ class TeleOp
     unsigned ledPin;
     Servo leftMotor;
     Servo rightMotor;
+    DFW * dfwObject;
   public:
-    void init(int armMotorPin, int armPotPin);
+    void init(int armMotorPin, int armPotPin, DFW * dfwobj);
     Servo getLeftServo();
     Servo getRightServo();
     void stopBlinking();
     void startBlinking();
     void blinkNow(long t);
-    void drive(DFW * dfwObject);
+    void drive();
+    void intake();
     void teleOpLED();
 };
