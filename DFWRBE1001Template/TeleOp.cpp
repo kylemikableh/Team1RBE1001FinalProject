@@ -16,7 +16,7 @@ void TeleOp::init(int leftMotorPin, int rightMotorPin)
   leftMotor.attach(leftPin, 1000, 2000);
   rightMotor.attach(rightPin, 1000, 2000);
 
-  lastRecordedTimeTele = 0; //Initializes lastRecordedTime to the current systime
+  lastRecordedTimeTele = 120000; //Initializes lastRecordedTime to the current systime
   ledIsOnTele = true;
 }
 
@@ -35,9 +35,14 @@ void TeleOp::stopBlinking()
   digitalWrite(ledPin, LOW);
 }
 
+void TeleOp::startBlinking()
+{
+  digitalWrite(ledPin, HIGH);
+}
+
 void TeleOp::blinkNow(long t)
 {
-  if(t - lastRecordedTimeTele > 500) //If greater, rester lastRecordedTime to current, invert light
+  if(lastRecordedTimeTele - t > 500) //If greater, rester lastRecordedTime to current, invert light
   {
     ledIsOnTele = !ledIsOnTele; //Flips the light;
     lastRecordedTimeTele = t;
@@ -50,15 +55,21 @@ void TeleOp::blinkNow(long t)
       digitalWrite(ledPin, LOW);
     }
   }
+  if(t < 500)
+  {
+    startBlinking();
+  }
 }
 
 void TeleOp::drive(DFW * dfwObject) 
 {
-  if(dfwObject->getCompetitionState() != powerup)
+  rightMotor.write((dfwObject->joystickrh() + (180 - dfwObject->joystickrv())) / 2);     //DFW.joystick will return 0-180 as an int into rightmotor.write
+  leftMotor.write((dfwObject->joystickrh() + dfwObject->joystickrv()) / 2);      //DFW.joystick will return 0-180 as an int into leftmotor.write
+  
+  /*if(dfwObject->getCompetitionState() != powerup)
   {
-        rightMotor.write((dfwObject->joystickrh() + (180 - dfwObject->joystickrv())) / 2);     //DFW.joystick will return 0-180 as an int into rightmotor.write
-        leftMotor.write((dfwObject->joystickrh() + dfwObject->joystickrv()) / 2);      //DFW.joystick will return 0-180 as an int into leftmotor.write
-   }
+
+   }*/
 }
 
 void TeleOp::teleOpLED()

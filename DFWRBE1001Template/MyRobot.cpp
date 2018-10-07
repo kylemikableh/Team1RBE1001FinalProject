@@ -13,6 +13,8 @@ void MyRobot::initialize(unsigned armMotorPin, unsigned armPotPin)
 {
 	teleOp.init(7,4); //Initialize TeleOp object//
 	autoObj.init(teleOp.getLeftServo(), teleOp.getRightServo());
+  Serial2.begin(9600);
+  Serial2.write("penis",5);
 }
 
 void MyRobot::moveTo(unsigned position) 
@@ -25,7 +27,8 @@ void MyRobot::moveTo(unsigned position)
  */
  void MyRobot::robotStartup()
  {
-
+  teleOp.init(7,4); //Initialize TeleOp object//
+  autoObj.init(teleOp.getLeftServo(), teleOp.getRightServo());
  }
 /**
  * Called by the controller between communication with the wireless controller
@@ -35,7 +38,7 @@ void MyRobot::moveTo(unsigned position)
  */
  void MyRobot::autonomous( long time)
  {
-    teleOp.stopBlinking();
+    teleOp.stopBlinking(); //Disable 
 		Serial.print("\r\nAuto time remaining: ");
 		Serial.print(time);
 		autoObj.blinkNow(time); //blick taking in new time, compairing difference to be either on or off;
@@ -66,4 +69,6 @@ void MyRobot::moveTo(unsigned position)
  void MyRobot::robotShutdown(void)
  {
 		Serial.println("Here is where I shut down my robot code");
+    autoObj.startBlinking();
+    teleOp.startBlinking();
  }

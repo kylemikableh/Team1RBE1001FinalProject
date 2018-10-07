@@ -30,7 +30,7 @@ void Auto::init(Servo left, Servo right)
   pinMode (encoder1PinA, INPUT);
   pinMode (encoder1PinB, INPUT);
   
-  lastRecordedTime = 0; //Initializes lastRecordedTime to the current systime
+  lastRecordedTime = 20000; //Initializes lastRecordedTime to the current systime
   ledIsOn = true;
 }
 
@@ -45,9 +45,14 @@ void Auto::stopBlinking()
   digitalWrite(ledPin, LOW);
 }
 
-void Auto::blinkNow(long t)
+void Auto::startBlinking()
 {
-  if(t - lastRecordedTime > 500) //If greater, rester lastRecordedTime to current, invert light
+  digitalWrite(ledPin, HIGH);
+}
+
+void Auto::blinkNow(long t)
+{ 
+  if(lastRecordedTime - t > 500) //If greater, rester lastRecordedTime to current, invert light
   {
     ledIsOn = !ledIsOn; //Flips the light;
     lastRecordedTime = t;

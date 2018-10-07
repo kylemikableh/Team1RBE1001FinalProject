@@ -15,6 +15,7 @@ class TeleOp
     Servo getLeftServo();
     Servo getRightServo();
     void stopBlinking();
+    void startBlinking();
     void blinkNow(long t);
     void drive(DFW * dfwObject);
     void teleOpLED();

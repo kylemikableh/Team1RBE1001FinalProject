@@ -12,6 +12,7 @@ class Auto
     void init(Servo left, Servo right);
     void deinit();
     void stopBlinking();
+    void startBlinking();
     void blinkNow(long t);
     void drive(DFW * dfwObject);
 };
