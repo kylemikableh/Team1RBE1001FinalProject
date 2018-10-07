@@ -4,7 +4,8 @@
 #include <DFW.h>
 #include <AbstractDFWRobot.h>
 
-class MyRobot :public AbstractDFWRobot{
+class MyRobot :public AbstractDFWRobot
+{
 public:
 	DFW * dfw;
 	/**
