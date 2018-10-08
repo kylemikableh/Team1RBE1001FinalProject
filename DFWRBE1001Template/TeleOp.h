@@ -18,7 +18,7 @@ class TeleOp
     void stopBlinking();
     void startBlinking();
     void blinkNow(long t);
-    void drive();
+    void drive(long t);
     void intake();
     void teleOpLED();
 };

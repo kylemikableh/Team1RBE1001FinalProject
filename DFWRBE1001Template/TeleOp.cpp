@@ -22,7 +22,7 @@ void TeleOp::init(int leftMotorPin, int rightMotorPin, DFW * dfwobj)
   lastRecordedTimeTele = 120000; //Initializes lastRecordedTime to the current systime
   ledIsOnTele = true;
 
-  Serial.println("TeleOp has initialized...");
+//  Serial.println("TeleOp has initialized...");
 }
 
 Servo TeleOp::getLeftServo()
@@ -66,10 +66,20 @@ void TeleOp::blinkNow(long t)
   }
 }
 
-void TeleOp::drive() 
+void TeleOp::drive(long t) 
 {
-  rightMotor.write((dfwObject->joystickrh() + (180 - dfwObject->joystickrv())) / 2);     //DFW.joystick will return 0-180 as an int into rightmotor.write
-  leftMotor.write((dfwObject->joystickrh() + dfwObject->joystickrv()) / 2);      //DFW.joystick will return 0-180 as an int into leftmotor.write
+  if(t < 200)
+  {
+    rightMotor.write(90);
+    leftMotor.write(90);
+  }
+  else
+  {
+      rightMotor.write(180-dfwObject->joysticklv());     //DFW.joystick will return 0-180 as an int into rightmotor.write
+      leftMotor.write(dfwObject->joystickrv()); 
+//    rightMotor.write((dfwObject->joystickrh() + (180 - dfwObject->joystickrv())) / 2);     //DFW.joystick will return 0-180 as an int into rightmotor.write
+//    leftMotor.write((dfwObject->joystickrh() + dfwObject->joystickrv()) / 2);      //DFW.joystick will return 0-180 as an int into leftmotor.write
+  }
   
   /*if(dfwObject->getCompetitionState() != powerup)
   {

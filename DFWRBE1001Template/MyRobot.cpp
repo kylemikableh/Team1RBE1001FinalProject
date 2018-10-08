@@ -15,7 +15,7 @@ void MyRobot::initialize(unsigned armMotorPin, unsigned armPotPin)
 {
 	teleOp.init(7,4, dfw); //Initialize TeleOp object, with motors at pins 7 and 4, respectfully
 	autoObj.init(teleOp.getLeftServo(), teleOp.getRightServo());
-  intake.init(10, dfw); //Creates the intake object
+  intake.init(11, dfw); //Creates the intake object
   
   Serial2.begin(9600);
   Serial2.write("eric",5);
@@ -44,8 +44,8 @@ void MyRobot::moveTo(unsigned position)
  void MyRobot::autonomous( long time)
  {
     teleOp.stopBlinking(); //Disable 
-		Serial.print("\r\nAuto time remaining: ");
-		Serial.print(time);
+		//Serial.print("\r\nAuto time remaining: ");
+		//Serial.print(time);
 		autoObj.blinkNow(time); //blick taking in new time, compairing difference to be either on or off;
 		autoObj.drive(dfw);
     intake.useAuto();
@@ -59,15 +59,15 @@ void MyRobot::moveTo(unsigned position)
  void MyRobot::teleop( long time)
  {
     autoObj.stopBlinking(); //Stop the auto LED blinking
-		Serial.print("\r\nTeleop time remaining: ");
-		Serial.print(time);
-		Serial.print("\tright joystick: ");
-		Serial.print(dfw->joystickrv());
-		Serial.print("\tleft joystick: ");
-		Serial.print(dfw->joysticklv());
+//		Serial.print("\r\nTeleop time remaining: ");
+//		Serial.print(time);
+//		Serial.print("\tright joystick: ");
+//		Serial.print(dfw->joystickrv());
+//		Serial.print("\tleft joystick: ");
+//		Serial.print(dfw->joysticklv());
 		//Run functions in the robot class
     teleOp.blinkNow(time);
-    teleOp.drive(); //Custom Class Drive
+    teleOp.drive(time); //Custom Class Drive
     intake.useTele();
  }
 /**
@@ -75,7 +75,7 @@ void MyRobot::moveTo(unsigned position)
  */
  void MyRobot::robotShutdown(void)
  {
-		Serial.println("Here is where I shut down my robot code");
+//		Serial.println("Here is where I shut down my robot code");
     autoObj.startBlinking();
     teleOp.startBlinking();
  }
