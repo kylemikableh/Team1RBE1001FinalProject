@@ -3,12 +3,15 @@
 #include "Auto.h"
 #include "TeleOp.h"
 #include "Intake.h"
+#include "Lift.h"
+
 /**
  * These are the execution runtions
  */
 TeleOp teleOp; //TeleOp Class written by Kyle
 Auto autoObj; //AutoClass Written by Kyle
 Intake intake; //Intake Class written by Kyle
+Lift lift; //Lift Class written by Kyle
 
 //The template says to not touch DFWRBE1001Template, ignoring passed in values.
 void MyRobot::initialize(unsigned armMotorPin, unsigned armPotPin) 
@@ -16,9 +19,7 @@ void MyRobot::initialize(unsigned armMotorPin, unsigned armPotPin)
 	teleOp.init(7,4, dfw); //Initialize TeleOp object, with motors at pins 7 and 4, respectfully
 	autoObj.init(teleOp.getLeftServo(), teleOp.getRightServo());
   intake.init(11, dfw); //Creates the intake object
-  
-  Serial2.begin(9600);
-  Serial2.write("eric",5);
+  lift.init(10, dfw); //Creates the intake object
 }
 
 void MyRobot::moveTo(unsigned position) 
@@ -33,7 +34,8 @@ void MyRobot::moveTo(unsigned position)
  {
   teleOp.init(7,4, dfw); //Initialize TeleOp object//
   autoObj.init(teleOp.getLeftServo(), teleOp.getRightServo());
-  intake.init(10, dfw); //Creates the intake object
+  intake.init(11, dfw); //Creates the intake object
+  lift.init(10, dfw); //Creates the intake object
  }
 /**
  * Called by the controller between communication with the wireless controller
@@ -49,6 +51,7 @@ void MyRobot::moveTo(unsigned position)
 		autoObj.blinkNow(time); //blick taking in new time, compairing difference to be either on or off;
 		autoObj.drive(dfw);
     intake.useAuto();
+    lift.useAuto();
  }
 /**
  * Called by the controller between communication with the wireless controller
@@ -69,6 +72,7 @@ void MyRobot::moveTo(unsigned position)
     teleOp.blinkNow(time);
     teleOp.drive(time); //Custom Class Drive
     intake.useTele();
+    lift.useTele();
  }
 /**
  * Called at the end of control to reset the objects for the next start
@@ -78,4 +82,5 @@ void MyRobot::moveTo(unsigned position)
 //		Serial.println("Here is where I shut down my robot code");
     autoObj.startBlinking();
     teleOp.startBlinking();
+    autoObj.stopMotors();
  }

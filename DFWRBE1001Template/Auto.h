@@ -13,6 +13,8 @@ class Auto
     void deinit();
     void stopBlinking();
     void startBlinking();
+    void stopMotors();
     void blinkNow(long t);
+    void updateEncoders();
     void drive(DFW * dfwObject);
 };
