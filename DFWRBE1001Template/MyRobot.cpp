@@ -16,7 +16,7 @@ Lift lift; //Lift Class written by Kyle
 //The template says to not touch DFWRBE1001Template, ignoring passed in values.
 void MyRobot::initialize(unsigned armMotorPin, unsigned armPotPin) 
 {
-	teleOp.init(7,4, dfw); //Initialize TeleOp object, with motors at pins 7 and 4, respectfully
+	teleOp.init(7,5, dfw); //Initialize TeleOp object, with motors at pins 7 and 4, respectfully
 	autoObj.init(teleOp.getLeftServo(), teleOp.getRightServo());
   intake.init(11, dfw); //Creates the intake object
   lift.init(10, dfw); //Creates the intake object
@@ -49,7 +49,7 @@ void MyRobot::moveTo(unsigned position)
 		//Serial.print("\r\nAuto time remaining: ");
 		//Serial.print(time);
 		autoObj.blinkNow(time); //blick taking in new time, compairing difference to be either on or off;
-		autoObj.drive(dfw);
+		autoObj.drive(dfw, time);
     intake.useAuto();
     lift.useAuto();
  }
@@ -62,12 +62,12 @@ void MyRobot::moveTo(unsigned position)
  void MyRobot::teleop( long time)
  {
     autoObj.stopBlinking(); //Stop the auto LED blinking
-//		Serial.print("\r\nTeleop time remaining: ");
-//		Serial.print(time);
-//		Serial.print("\tright joystick: ");
-//		Serial.print(dfw->joystickrv());
-//		Serial.print("\tleft joystick: ");
-//		Serial.print(dfw->joysticklv());
+		Serial.print("\r\nTeleop time remaining: ");
+		Serial.print(time);
+		Serial.print("\tright joystick: ");
+		Serial.print(dfw->joystickrv());
+		Serial.print("\tleft joystick: ");
+		Serial.print(dfw->joysticklv());
 		//Run functions in the robot class
     teleOp.blinkNow(time);
     teleOp.drive(time); //Custom Class Drive

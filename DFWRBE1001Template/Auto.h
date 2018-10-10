@@ -16,5 +16,9 @@ class Auto
     void stopMotors();
     void blinkNow(long t);
     void updateEncoders();
-    void drive(DFW * dfwObject);
+    static void doEncoderA();
+    static void doEncoderB();
+    static void doEncoderARight();
+    static void doEncoderBRight();
+    void drive(DFW * dfwObject, long t);
 };
